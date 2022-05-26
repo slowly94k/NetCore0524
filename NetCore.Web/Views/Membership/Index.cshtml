@@ -22,5 +22,6 @@
 @*로그인이 되었을 경우 *@
 @if (Context.User.Identity.IsAuthenticated)
 {
-<div class="text-danger">@($"{userName}님의 권한은 {userRoleInfo[0]}({userRoleInfo[1]})입니다.")</div>
-<a asp-controller="Membership" asp-action="LogOut" class="btn btn-primary">멤버십 로그아웃</a>}
+    <div class="text-danger">@($"{userName}님의 권한은 {userRoleInfo[0]}({userRoleInfo[1]})입니다.")</div>
+    <a asp-controller="Membership" asp-action="LogOut" class="btn btn-primary">멤버십 로그아웃</a>
+}

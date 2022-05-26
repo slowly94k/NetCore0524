@@ -77,10 +77,10 @@ namespace NetCore.Services.Svcs
             //2.4STORED PROCEDURE
             //FromSqlRaw()메서드 뒤에 .AsEnumerable() 메서드를 추가
             //파라메터 @p3 등 추가 가능
-            //user = _context.Users.FromSqlRaw("dbo.uspCheckLoginByUserId @p0, @p1", new[] { userId, password })
-            //                        .AsEnumerable().FirstOrDefault();       
-            user = _context.Users.FromSqlInterpolated($"dbo.uspCheckLoginByUserId {userId}, {password}")
-                                  .AsEnumerable().FirstOrDefault();
+            user = _context.Users.FromSqlRaw("dbo.uspCheckLoginByUserId @p0, @p1", new[] { userId, password })
+                                    .AsEnumerable().FirstOrDefault();       
+            //user = _context.Users.FromSqlInterpolated($"dbo.uspCheckLoginByUserId {userId}, {password}")
+            //                      .AsEnumerable().FirstOrDefault();
 
             //사용자 정보가 없을 경우(12.)
             //비밀번호가 틀려야 이 쪽으로 넘어온다
@@ -95,8 +95,8 @@ namespace NetCore.Services.Svcs
                 //rowAffected = _context.Database.ExecuteSqlInterpolated($"Update dbo.[User] SET AccessFailedCount += 1 WHERE UserId={userId}");
 
                 //STORED PROCEDURE 12.(2. 프로시져로)
-                //rowAffected = _context.Database.ExecuteSqlRaw("dbo.FailedLoginByUserId @p0", parameters: new[] { userId });
-                rowAffected = _context.Database.ExecuteSqlInterpolated($"dbo.FailedLoginByUserId {userId}");
+                rowAffected = _context.Database.ExecuteSqlRaw("dbo.FailedLoginByUserId @p0", parameters: new[] { userId });
+                //rowAffected = _context.Database.ExecuteSqlInterpolated($"dbo.FailedLoginByUserId {userId}");
             }
 
             return user;
@@ -122,11 +122,15 @@ namespace NetCore.Services.Svcs
         {
             var userRolesByUserInfos = _context.UserRolesByUsers.Where(uru => uru.UserId.Equals(userId)).ToList();
 
-            foreach(var role in userRolesByUserInfos)
+            //foreach : 권한에 대한 이름과 우선순위를 가져오기위해 사용
+            //사용자 소유 권한, 권한이 아이디만 있는데
+            foreach (var role in userRolesByUserInfos)
             {
+                //사용자 소유 권한 안에 있는 사용자 권한정보에 값이 들어간다
                 role.UserRole = GetUserRole(role.RoleId);
             }
-            return userRolesByUserInfos.OrderByDescending(uru => uru.UserId.Equals(userId)).ToList();
+            //GetRolesOwnedByUser : 구현으로 이동 > OrderByDescending : 내림차순
+            return userRolesByUserInfos.OrderByDescending(uru => uru.UserRole.RolePriority);
         }
 
         //UserRole 을 만들기 위해 메서드 추가 14.

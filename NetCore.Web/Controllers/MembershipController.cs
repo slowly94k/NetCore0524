@@ -29,8 +29,9 @@ namespace NetCore.Controllers
         public MembershipController(IHttpContextAccessor accessor, IUser user)
         {
             //전역변수 _user(인터페이스)에 생성자의 파라메터user을 넣어 사용할 수 있게 한다.
-            _user = user;
             _context = accessor.HttpContext;
+            _user = user;
+            
         }
         public IActionResult Index()
         {

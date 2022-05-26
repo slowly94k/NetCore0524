@@ -94,6 +94,12 @@ namespace NetCore.Web
             // 권한을 승인하기 위해 메서드가 추가됨.
             app.UseAuthorization();
 
+            ////강의내용
+            //세션 지정
+            //System.InvalidOperationException:
+            //'Session has not been configured for this application or request.'
+            //app.UseSession();
+
             // .Net Core 2.1의 UseMvc()에서 다음과 같이 메서드명이 변경됨. 
             app.UseEndpoints(endpoints =>
             {
