@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TDBFirstDBModelStoreContainer" CdmEntityContainer="TDBFirstDBEntities1">
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="TDBFirstDBModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="IsMembershipWithdrawn" ColumnName="IsMembershipWithdrawn" />
+          <ScalarProperty Name="JoinedUtcDate" ColumnName="JoinedUtcDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserRoles">
+      <EntityTypeMapping TypeName="TDBFirstDBModel.UserRole">
+        <MappingFragment StoreEntitySet="UserRole">
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+          <ScalarProperty Name="RolePriority" ColumnName="RolePriority" />
+          <ScalarProperty Name="ModifiedUtcDate" ColumnName="ModifiedUtcDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserRolesByUsers">
+      <EntityTypeMapping TypeName="TDBFirstDBModel.UserRolesByUser">
+        <MappingFragment StoreEntitySet="UserRolesByUser">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="OwnedUtcDate" ColumnName="OwnedUtcDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

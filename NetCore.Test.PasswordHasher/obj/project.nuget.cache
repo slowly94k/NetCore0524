@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "P86i1Gziheuy3Rf6JczYRPcqKCRhL23hSwYQmJ77UjGbxzqP3PQCyiL6fw0MAuRI3R+g5ok7oj33qRwA0oTsMA==",
+  "success": true,
+  "projectFilePath": "C:\\hwfile\\vs2019\\z0516\\NetCore\\NetCore.Test.PasswordHasher\\NetCore.Test.PasswordHasher.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\hwkim\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\5.0.0\\microsoft.aspnetcore.cryptography.internal.5.0.0.nupkg.sha512",
+    "C:\\Users\\hwkim\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\5.0.0\\microsoft.aspnetcore.cryptography.keyderivation.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
