@@ -37,9 +37,16 @@ namespace NetCore.Web.Controllers
         //파라메터로 IUser인터페이스 추가
         public MembershipController(IHttpContextAccessor accessor,IPasswordHasher hasher, IUser user)
         {
+<<<<<<< HEAD
             _context = accessor.HttpContext;
             _hasher = hasher;
             _user = user;
+=======
+            //전역변수 _user(인터페이스)에 생성자의 파라메터user을 넣어 사용할 수 있게 한다.
+            _context = accessor.HttpContext;
+            _user = user;
+            
+>>>>>>> 43341d385299f54d9b385a68b583d17d45e8cc92
         }
 
         //15.

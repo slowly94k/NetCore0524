@@ -79,10 +79,17 @@ namespace NetCore.Services.Svcs
             //2.4STORED PROCEDURE(11.)
             //FromSqlRaw()메서드 뒤에 .AsEnumerable() 메서드를 추가
             //파라메터 @p3 등 추가 가능
+<<<<<<< HEAD
             //user = _context.Users.FromSqlRaw("dbo.uspCheckLoginByUserId @p0, @p1", new[] { userId, password })
             //                        .AsEnumerable().FirstOrDefault();
             user = _context.Users.FromSqlInterpolated($"dbo.uspCheckLoginByUserId {userId}, {password}")
                                   .AsEnumerable().FirstOrDefault();
+=======
+            user = _context.Users.FromSqlRaw("dbo.uspCheckLoginByUserId @p0, @p1", new[] { userId, password })
+                                    .AsEnumerable().FirstOrDefault();       
+            //user = _context.Users.FromSqlInterpolated($"dbo.uspCheckLoginByUserId {userId}, {password}")
+            //                      .AsEnumerable().FirstOrDefault();
+>>>>>>> 43341d385299f54d9b385a68b583d17d45e8cc92
 
             //사용자 정보가 없을 경우(12.)
             //비밀번호가 틀려야 이 쪽으로 넘어온다
@@ -98,8 +105,8 @@ namespace NetCore.Services.Svcs
                 //rowAffected = _context.Database.ExecuteSqlInterpolated($"Update dbo.[User] SET AccessFailedCount += 1 WHERE UserId={userId}");
 
                 //STORED PROCEDURE 12.(2. 프로시져로)
-                //rowAffected = _context.Database.ExecuteSqlRaw("dbo.FailedLoginByUserId @p0", parameters: new[] { userId });
-                rowAffected = _context.Database.ExecuteSqlInterpolated($"dbo.FailedLoginByUserId {userId}");
+                rowAffected = _context.Database.ExecuteSqlRaw("dbo.FailedLoginByUserId @p0", parameters: new[] { userId });
+                //rowAffected = _context.Database.ExecuteSqlInterpolated($"dbo.FailedLoginByUserId {userId}");
             }
 
             return user;
