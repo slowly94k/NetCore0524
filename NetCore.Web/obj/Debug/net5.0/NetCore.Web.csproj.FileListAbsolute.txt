@@ -458,3 +458,4 @@ C:\hwfile\vs2019\z0516\zxc\NetCore\NetCore.Web\obj\Debug\net5.0\ref\NetCore.Web.
 C:\hwfile\vs2019\z0516\zxc\NetCore\NetCore.Web\obj\Debug\net5.0\NetCore.Web.pdb
 C:\hwfile\vs2019\z0516\zxc\NetCore\NetCore.Web\obj\Debug\net5.0\NetCore.Web.genruntimeconfig.cache
 C:\hwfile\vs2019\z0516\zxc\NetCore\NetCore.Web\obj\Debug\net5.0\Razor\Views\Membership\UpdateInfo.cshtml.g.cs
+C:\hwfile\vs2019\z0516\NetCore\NetCore.Web\obj\Debug\net5.0\Razor\Views\Membership\UpdateInfo.cshtml.g.cs
