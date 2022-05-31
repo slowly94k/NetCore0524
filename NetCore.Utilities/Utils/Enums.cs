@@ -13,16 +13,16 @@ namespace NetCore.Utilities.Utils
         /// </summary>
         public enum CryptoType
         {
-            //관리되지 않는
+            //관리되지 않는 방식
             Unmanaged = 1,
 
-            //관리되는
+            //관리되는 방식
             Managed = 2,
-            
-            //Cng알고리즘 사용하는데, Cbc모드의 인증을 사용하는 
-            CngCbc =3,
 
-            //Cng알고리즘 사용하는데, Gcm모드의 인증을 사용하는 
+            //Cng알고리즘 인데 Cbc모드의 인증을 사용   
+            CngCbc = 3,
+
+            //Cng알고리즘 인데 Gcm모드의 인증을 사용 
             CngGcm = 4
         }
     }

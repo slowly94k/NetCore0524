@@ -39,29 +39,30 @@ namespace NetCore.Web
             //IUser껍데기, UserService 내용물
             //IUser 인터페이스에 UserService 클래스 인스턴스 주입
             services.AddScoped<IUser, UserService>();
-
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
 
             services.AddHttpContextAccessor();
-
 
             //DBFirst DB접속정보만
             services.AddDbContext<DBFirstDbContext>(options =>
                 options.UseSqlServer(connectionString: Configuration.GetConnectionString(name: "DBFirstDBConnection")));
 
-            //MVC 패턴을 사용하기 위해서 서비스로 등록
-            services.AddMvc();
+            // .Net Core 2.1의 AddMvc()에서 다음과 같이 메서드명이 변경됨. 
+            services.AddControllersWithViews();
+
 
             //신원보증과 승인권한 (2가지 등록)14
             services.AddAuthentication(defaultScheme: CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.AccessDeniedPath = "/Membership/Forbidden";
-                    options.LoginPath = "/Membership/Login";
-                });
+                    .AddCookie(options =>
+                    {
+                        //접근방지 페이지 지정
+                        options.AccessDeniedPath = "/Membership/Forbidden";
+                        //로그인경로 지정
+                        options.LoginPath = "/Membership/Login";
+                    });
 
             services.AddAuthorization();
 
-            //services.AddControllersWithViews(); 원래 있던거
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,15 +81,17 @@ namespace NetCore.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+
             /*
-             app.UseRouting(), app.UseAuthentication(), app.UseAuthorization(),
-            app.UseSession(), app.UseEndpoints() 순서대로 작성 해야한다.
-             */
+           app.UseRouting(), app.UseAuthentication(), app.UseAuthorization(),
+           app.UseSession(), app.UseEndpoints()
+           이렇게 5개의 메서드는 반드시 순서를 지켜야 올바로 작동함.
+           */
 
             // 아래의 app.UseEndpoints()메서드를 라우팅과 연결하기 위해 사용됨.
             app.UseRouting();
-            
-            //신원보증만 14
+
+            //신원보증만(14. )
             app.UseAuthentication();
 
             // 권한을 승인하기 위해 메서드가 추가됨.

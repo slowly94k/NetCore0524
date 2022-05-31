@@ -22,7 +22,7 @@ namespace NetCore.Data.ViewModels
         [Display(Name = "비밀번호")]
         public string Password { get; set; }
 
-        //지속여부 - 내 정보 기억 체크박스 생성 14.
+        //지속여부 - 내정보 기억 체크박스 생성 (14.) await 부분에 IsPersistent
         [Display(Name = "내정보 기억")]
         public bool RememberMe { get; set; }
     }

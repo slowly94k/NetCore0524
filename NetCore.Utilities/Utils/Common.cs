@@ -1,18 +1,18 @@
-﻿using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
-using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NetCore.Utilities.Utils
 {
-    public static class Common
+    public class Common
     {
         /// <summary>
         /// Data Protection 지정하기
@@ -25,18 +25,22 @@ namespace NetCore.Utilities.Utils
         //Startup.cs에서 IServiceCollection services 복사 > 누겟 2개 추가, 경로와 애플리케이션 이름 파라미터 추가/ , 이넘형태 데이터
         public static void SetDataProtection(IServiceCollection services, string keyPath, string applicationName, Enum cryptoType)
         {
-            //13. DataProtection
+            //ConfigureServices()메서드에서 DataProtection을 사용하기 위해 서비스로 등록 (12. ) 
+            //PersistKeysToFileSystem() : 키를 파일시스템으로 유지 
+            //SetDefaultKeyLifetime() : 키 만료기간
+            //SetApplicationName() : 어플리케이션 이름 지정 //Enum으로 받아서
             var builder = services.AddDataProtection()
-                .PersistKeysToFileSystem(new DirectoryInfo(keyPath))
-                .SetDefaultKeyLifetime(TimeSpan.FromDays(7))
-                .SetApplicationName(applicationName);//Enum으로 받아서
+                    .PersistKeysToFileSystem(new DirectoryInfo(keyPath))
+                    .SetDefaultKeyLifetime(TimeSpan.FromDays(7))
+                    .SetApplicationName(applicationName); 
 
             //switch문으로 cryptoType을 받아서 처리
             switch (cryptoType)
             {
                 case Enums.CryptoType.Unmanaged:
-                //AES : Advenced Encryption Standard
-                //Two-way방식 : 암호화, 복호화
+                    //builder가 있는 곳에 추가 되는 것(연결)
+                    //AES : Advanced Encyption Standard, Two-way방식 : 암호화, 복호화, 256이 보완에 뛰어남
+                    //SHA : Secure Hash Algorithm,  One-way방식 : 암호화,  512 숫자가 클수록 보완에 좋다
                     builder.UseCryptographicAlgorithms(
                         new AuthenticatedEncryptorConfiguration()
                         {
@@ -44,6 +48,7 @@ namespace NetCore.Utilities.Utils
                             ValidationAlgorithm = ValidationAlgorithm.HMACSHA512
                         });
                     break;
+
                 case Enums.CryptoType.Managed:
                     builder.UseCustomCryptographicAlgorithms(
                         new ManagedAuthenticatedEncryptorConfiguration()
@@ -58,11 +63,13 @@ namespace NetCore.Utilities.Utils
                             ValidationAlgorithmType = typeof(HMACSHA512)
                         });
                     break;
+
                 case Enums.CryptoType.CngCbc:
                     //Windows CNG algorithm using CBC-mode encryption
                     //CNG algorithm
-                    //Cryptography API : Next Generation
+                    //Cryptography API : Next Gneration
                     //CBC-mode : 암호화 유형
+                    //Cipher Bolck Chaining
                     builder.UseCustomCryptographicAlgorithms(
                         new CngCbcAuthenticatedEncryptorConfiguration()
                         {
@@ -78,20 +85,21 @@ namespace NetCore.Utilities.Utils
                             HashAlgorithmProvider = null
                         });
                     break;
+
                 case Enums.CryptoType.CngGcm:
                     //Windows CNG algorithm using Galois/Counter Mode encryption
                     //Galois/Counter Mode
                     //GCM
                     builder.UseCustomCryptographicAlgorithms(
-                         new CngGcmAuthenticatedEncryptorConfiguration()
-                         {
+                        new CngGcmAuthenticatedEncryptorConfiguration()
+                        {
                             // Passed to BCryptOpenAlgorithmProvider
                             EncryptionAlgorithm = "AES",
-                             EncryptionAlgorithmProvider = null,
+                            EncryptionAlgorithmProvider = null,
 
                             // Specified in bits
                             EncryptionAlgorithmKeySize = 256
-                         });
+                        });
                     break;
 
             }
