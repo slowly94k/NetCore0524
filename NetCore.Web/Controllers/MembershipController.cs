@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using NetCore.Data.ViewModels;
 using NetCore.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -37,16 +39,15 @@ namespace NetCore.Web.Controllers
         //파라메터로 IUser인터페이스 추가
         public MembershipController(IHttpContextAccessor accessor,IPasswordHasher hasher, IUser user)
         {
-<<<<<<< HEAD
+
             _context = accessor.HttpContext;
             _hasher = hasher;
             _user = user;
-=======
             //전역변수 _user(인터페이스)에 생성자의 파라메터user을 넣어 사용할 수 있게 한다.
             _context = accessor.HttpContext;
             _user = user;
             
->>>>>>> 43341d385299f54d9b385a68b583d17d45e8cc92
+
         }
 
         //15.
@@ -69,6 +70,7 @@ namespace NetCore.Web.Controllers
         }
         #endregion
 
+        [AllowAnonymous] // 탈퇴 때문에 추가 19.
         public IActionResult Index()
         {
             return View();//뷰 추가 3
@@ -135,7 +137,7 @@ namespace NetCore.Web.Controllers
                     var identity = new ClaimsIdentity(claims: new[]
                     {
                         new Claim(type:ClaimTypes.Name,
-                                  value:userInfo.UserName),
+                                  value:userInfo.UserId),
                         //권한 가져오는 부분
                         new Claim(type:ClaimTypes.Role,                        
                                   value:userTopRole.RoleId),
@@ -268,6 +270,41 @@ namespace NetCore.Web.Controllers
             return View(user);
         }
 
+        //사용자 탈퇴메서드 19.
+        //비동기로 수정
+        [HttpPost("/{controller}/Withdrawn")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> WithdrawnAsync(WithdrawnInfo withdrawn)
+        {
+            string message = string.Empty;
+            //모델상태 체크            
+            if (ModelState.IsValid)
+            {
+                //탈퇴 서비스
+                if (_user.WithdrawnUser(withdrawn) > 0)
+                {
+                    TempData["Message"] = "사용자 탈퇴가 성공적으로 이루어졌습니다.";
+
+                    //비동기니까 await로~
+                    await _context.SignOutAsync(scheme: CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    return RedirectToAction("Index", "Membership");
+                }
+                else
+                {
+                    message = "사용자가 탈퇴처리되지 않았습니다.";
+                }
+
+            }
+            else
+            {
+                message = "사용자가 탈퇴하기 위한 정보를 올바르게 입력하세요.";
+            }
+
+            ViewData["Message"] = message;
+            return View("Index", withdrawn);
+        }
+
         //로그아웃 비동기 메서드(14.)
         [HttpGet("/LogOut")]
         public async Task<IActionResult> LogOutAsync()
@@ -283,14 +320,18 @@ namespace NetCore.Web.Controllers
          팅겨져 나오면 Forbidden()여기로 오는데 Forbidden()의 입장에서 이전에 요청했던 URL은 
          팅겨나간 그 페이지! 그 페이지를 화면에 표시하기 위해서 returnUrl을 사용
          */
+        //[FromServices] : Action메서드에서 파라미터로 의존성 주입
         [HttpGet]
-        [Authorize(Roles = "AssociateUser")]
-        public IActionResult Forbidden()
+        //[Authorize(Roles = "AssociateUser")] 16. 시작부분에서 주석처리 됨
+        public IActionResult Forbidden([FromServices]ILogger<MembershipController> logger)
         {
-            StringValues paramReturnUrl;
+            //StringValues paramReturnUrl; 없어짐 16.  paramReturnUrl[0] =? /Data/AES
             //존재여부  returnUrl에 대해서 paramReturnUrl이 있는지 체크
-            bool exists = _context.Request.Query.TryGetValue("returnUrl", out paramReturnUrl);
+            bool exists = _context.Request.Query.TryGetValue("returnUrl", out StringValues paramReturnUrl);
             paramReturnUrl = exists ? _context.Request.Host.Value + paramReturnUrl[0] : string.Empty;
+
+            //MethodBase.GetCurrentMethod().Name : 현재의 메서드의 이름을 가져온다.
+            logger.LogTrace($"{MethodBase.GetCurrentMethod().Name} 메서드.권한이 없는 사람이 페이지에 접근 에러 처리.returnUrl : {paramReturnUrl}");
 
             ViewData["Message"] = $"귀하는 {paramReturnUrl} 경로로 접근하려고 했습니다만, <br>" +
                                    "인증된 사용자도 접근하지 못하는 페이지가 있습니다. <br>" +

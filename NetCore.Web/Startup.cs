@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using NetCore.Services.Data;
 using NetCore.Services.Interfaces;
 using NetCore.Services.Svcs;
@@ -38,6 +39,7 @@ namespace NetCore.Web
             //의존성 주입을 사용하기 위해서 서비스로 등록
             //IUser껍데기, UserService 내용물
             //IUser 인터페이스에 UserService 클래스 인스턴스 주입
+            services.AddScoped<DBFirstDbInitializer>();
             services.AddScoped<IUser, UserService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
 
@@ -46,6 +48,14 @@ namespace NetCore.Web
             //DBFirst DB접속정보만
             services.AddDbContext<DBFirstDbContext>(options =>
                 options.UseSqlServer(connectionString: Configuration.GetConnectionString(name: "DBFirstDBConnection")));
+
+            //Logging 21.
+            services.AddLogging(builder =>
+            {
+                builder.AddConfiguration(Configuration.GetSection(key: ":Logging"));
+                builder.AddConsole();
+                builder.AddDebug();
+            });
 
             // .Net Core 2.1의 AddMvc()에서 다음과 같이 메서드명이 변경됨. 
             services.AddControllersWithViews();

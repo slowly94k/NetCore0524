@@ -23,7 +23,7 @@ namespace NetCore.Web.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles = "GeneralUser, SuperUser, SystemUser")]
+        [Authorize(Roles = "SuperUser, SystemUser")]
         /*
             15.
             AssociateUser의 권한만 가지고 있는 준사용자는 여기로 들어 올 수 없다.
@@ -41,7 +41,7 @@ namespace NetCore.Web.Controllers
         //AES 암호 생성하기 버튼을 누르면 "return View()"여기서 암복호화 값을 넣어 줄거다.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "GeneralUser, SuperUser, SystemUser")]
+        [Authorize(Roles = "SuperUser, SystemUser")]
         public IActionResult AES(AESInfo aes)
         {
             string message = string.Empty;

@@ -17,22 +17,24 @@
         *@ 
         userRoleId = User.FindFirst(claim => claim.Type.Equals(ClaimTypes.Role)).Value;
         userDataInfos = User.FindFirst(claim => claim.Type.Equals(ClaimTypes.UserData)).Value.Split("|");
-    } }
+    } 
+}
 
 @*여기에 보여진다*@
 <h2>@ViewData["Title"]</h2>
 
 @*Html.Raw : MembershipController에 사용되는 <br> 태그를 사용하기 위해서*@
 <div class="text-info">@Html.Raw(TempData["Message"])</div>
-
+<div class="text-danger">@Html.Raw(ViewData["Message"])</div>
 @*로그인이 되었을 경우 *@
 @if (Context.User.Identity.IsAuthenticated)
 {
-<<<<<<< HEAD
-<div class="text-danger">@($"{userId}({userDataInfos[2]})님의 권한은 {userRoleId}({userDataInfos[0]})입니다.")</div>
-                <a asp-controller="Membership" asp-action="LogOut" class="btn btn-primary">멤버십 로그아웃</a>}
-=======
-    <div class="text-danger">@($"{userName}님의 권한은 {userRoleInfo[0]}({userRoleInfo[1]})입니다.")</div>
+    <div class="text-danger">@($"{userId}({userDataInfos[2]})님의 권한은 {userRoleId}({userDataInfos[0]})입니다.")</div> 
+    @* .Net Core 3.1에서 asp-action="LogOutAsync", asp-action="WithdrawnAsync" 속성값이 다음과 같이 변경됨.*@
     <a asp-controller="Membership" asp-action="LogOut" class="btn btn-primary">멤버십 로그아웃</a>
+    <form method="post" asp-controller="Membership" asp-action="Withdrawn" onsubmit="btnWithdrawn.disabled = true; return true;">
+        <input type="hidden" name="UserId" value="@Context.User.Identity.Name" />                                    
+        <input type="password" name="Password" placeholder="Password" value="" autofocus />                                    
+        <button type="submit" name="btnWithdrawn" class="btn btn-default">멤버십 사용자 탈퇴</button>
+    </form>
 }
->>>>>>> 43341d385299f54d9b385a68b583d17d45e8cc92

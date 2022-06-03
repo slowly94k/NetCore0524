@@ -13,7 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCore.Databases", "NetCor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore.Utilities", "NetCore.Utilities\NetCore.Utilities.csproj", "{659F07F3-9D8D-42FD-B2B1-450975FB2998}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCore.Test.PasswordHasher", "NetCore.Test.PasswordHasher\NetCore.Test.PasswordHasher.csproj", "{1B22B09E-BB91-45D4-A9DF-7B6AC710473C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore.Test.PasswordHasher", "NetCore.Test.PasswordHasher\NetCore.Test.PasswordHasher.csproj", "{1B22B09E-BB91-45D4-A9DF-7B6AC710473C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DDBE3608-5064-494B-B8AE-E15745D82BC9}"
+	ProjectSection(SolutionItems) = preProject
+		.filenesting.json = .filenesting.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

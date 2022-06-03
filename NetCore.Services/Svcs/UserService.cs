@@ -79,17 +79,17 @@ namespace NetCore.Services.Svcs
             //2.4STORED PROCEDURE(11.)
             //FromSqlRaw()메서드 뒤에 .AsEnumerable() 메서드를 추가
             //파라메터 @p3 등 추가 가능
-<<<<<<< HEAD
+
             //user = _context.Users.FromSqlRaw("dbo.uspCheckLoginByUserId @p0, @p1", new[] { userId, password })
             //                        .AsEnumerable().FirstOrDefault();
-            user = _context.Users.FromSqlInterpolated($"dbo.uspCheckLoginByUserId {userId}, {password}")
-                                  .AsEnumerable().FirstOrDefault();
-=======
+            //user = _context.Users.FromSqlInterpolated($"dbo.uspCheckLoginByUserId {userId}, {password}")
+            //                      .AsEnumerable().FirstOrDefault();
+
             user = _context.Users.FromSqlRaw("dbo.uspCheckLoginByUserId @p0, @p1", new[] { userId, password })
                                     .AsEnumerable().FirstOrDefault();       
             //user = _context.Users.FromSqlInterpolated($"dbo.uspCheckLoginByUserId {userId}, {password}")
             //                      .AsEnumerable().FirstOrDefault();
->>>>>>> 43341d385299f54d9b385a68b583d17d45e8cc92
+
 
             //사용자 정보가 없을 경우(12.)
             //비밀번호가 틀려야 이 쪽으로 넘어온다
@@ -257,8 +257,34 @@ namespace NetCore.Services.Svcs
         {
             return user.ChangeInfo.Equals(user);
         }
-        
 
+        //탈퇴 서비스 등록 19.
+        private int WithdrawnUser(WithdrawnInfo user)
+        {
+            //데이터베이스에 있는것 불러온다. 값이 하나니까 FirstOrDefault() 16. => PasswordHasher에서 여기로 추가 17.
+            var userInfo = _context.Users.Where(u => u.UserId.Equals(user.UserId)).FirstOrDefault();
+
+            //해당 유저아이디에 대응되는 사용자가 없을 경우!! 17.
+            if (userInfo == null)
+            {
+                return 0;
+            }
+
+            bool check = _hasher.CheckThePasswordInfo(user.UserId, user.Password, userInfo.GUIDSalt, userInfo.RNGSalt, userInfo.PasswordHash);
+            //행이 적용 되었다는 변수
+            int rowAffected = 0;
+
+            if (check)
+            {
+                //Remove()메서드 통해서 삭제제거 하고
+                _context.Remove(userInfo);
+
+                //데이터베이스에 적용
+                rowAffected = _context.SaveChanges();
+            }
+
+            return rowAffected;
+        }
         #endregion
 
 
@@ -301,6 +327,11 @@ namespace NetCore.Services.Svcs
         bool IUser.CompareInfo(UserInfo user)
         {
             return CompareInfo(user);
+        }
+        //명시적 19.
+        int IUser.WithdrawnUser(WithdrawnInfo user)
+        {
+            return WithdrawnUser(user);
         }
     }
 }

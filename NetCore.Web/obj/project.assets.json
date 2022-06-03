@@ -914,6 +914,18 @@
           }
         }
       },
+      "NetEscapades.Extensions.Logging.RollingFile/2.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "3.0.0"
+        },
+        "compile": {
+          "lib/netcoreapp3.0/NetEscapades.Extensions.Logging.RollingFile.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/NetEscapades.Extensions.Logging.RollingFile.dll": {}
+        }
+      },
       "Newtonsoft.Json/11.0.2": {
         "type": "package",
         "compile": {
@@ -3781,6 +3793,21 @@
         "runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.xml",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "NetEscapades.Extensions.Logging.RollingFile/2.4.1": {
+      "sha512": "ic//NG43256JfT6A4rWZiQGsgBhiBiTARMFwdHr2XDPrmX89pfxYBEYAxTurb1s0Am87c4eiG5to2RMFUwt2vg==",
+      "type": "package",
+      "path": "netescapades.extensions.logging.rollingfile/2.4.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netcoreapp3.0/NetEscapades.Extensions.Logging.RollingFile.dll",
+        "lib/netcoreapp3.0/NetEscapades.Extensions.Logging.RollingFile.xml",
+        "lib/netstandard2.0/NetEscapades.Extensions.Logging.RollingFile.dll",
+        "lib/netstandard2.0/NetEscapades.Extensions.Logging.RollingFile.xml",
+        "netescapades.extensions.logging.rollingfile.2.4.1.nupkg.sha512",
+        "netescapades.extensions.logging.rollingfile.nuspec"
       ]
     },
     "Newtonsoft.Json/11.0.2": {
@@ -7553,7 +7580,8 @@
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.2",
       "NetCore.Services >= 1.0.0",
-      "NetCore.Utilities >= 1.0.0"
+      "NetCore.Utilities >= 1.0.0",
+      "NetEscapades.Extensions.Logging.RollingFile >= 2.4.1"
     ]
   },
   "packageFolders": {
@@ -7611,6 +7639,10 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[5.0.2, )"
+          },
+          "NetEscapades.Extensions.Logging.RollingFile": {
+            "target": "Package",
+            "version": "[2.4.1, )"
           }
         },
         "imports": [

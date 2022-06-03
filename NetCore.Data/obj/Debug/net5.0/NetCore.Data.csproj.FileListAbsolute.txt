@@ -14,7 +14,6 @@ C:\hwfile\vs2019\z0516\NetCore\NetCore.Data\bin\Debug\net5.0\NetCore.Data.deps.j
 C:\hwfile\vs2019\z0516\NetCore\NetCore.Data\bin\Debug\net5.0\NetCore.Data.dll
 C:\hwfile\vs2019\z0516\NetCore\NetCore.Data\bin\Debug\net5.0\ref\NetCore.Data.dll
 C:\hwfile\vs2019\z0516\NetCore\NetCore.Data\bin\Debug\net5.0\NetCore.Data.pdb
-C:\hwfile\vs2019\z0516\NetCore\NetCore.Data\obj\Debug\net5.0\NetCore.Data.csproj.AssemblyReference.cache
 C:\hwfile\vs2019\z0516\NetCore\NetCore.Data\obj\Debug\net5.0\NetCore.Data.GeneratedMSBuildEditorConfig.editorconfig
 C:\hwfile\vs2019\z0516\NetCore\NetCore.Data\obj\Debug\net5.0\NetCore.Data.AssemblyInfoInputs.cache
 C:\hwfile\vs2019\z0516\NetCore\NetCore.Data\obj\Debug\net5.0\NetCore.Data.AssemblyInfo.cs
@@ -34,3 +33,4 @@ C:\hwfile\vs2019\z0516\zxc\NetCore\NetCore.Data\bin\Debug\net5.0\NetCore.Data.de
 C:\hwfile\vs2019\z0516\zxc\NetCore\NetCore.Data\bin\Debug\net5.0\NetCore.Data.dll
 C:\hwfile\vs2019\z0516\zxc\NetCore\NetCore.Data\bin\Debug\net5.0\ref\NetCore.Data.dll
 C:\hwfile\vs2019\z0516\zxc\NetCore\NetCore.Data\bin\Debug\net5.0\NetCore.Data.pdb
+C:\hwfile\vs2019\z0516\NetCore\NetCore.Data\obj\Debug\net5.0\NetCore.Data.csproj.AssemblyReference.cache

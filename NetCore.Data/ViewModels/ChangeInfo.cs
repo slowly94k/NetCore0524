@@ -11,13 +11,15 @@ namespace NetCore.Data.ViewModels
     public class ChangeInfo
     {
         //사용자 이름 추가 17.
-        [Required(ErrorMessage = "사용자 이름을 입력하세요.")]
-        [Display(Name = "사용자 이름")]
+        /// <summary>
+        /// 사용자 이름
+        /// </summary>
         public string UserName { get; set; }
 
         //사용자 이메일 추가 17.
-        [DataType(DataType.EmailAddress)]
-        [Display(Name = "사용자 이메일")]
+        /// <summary>
+        /// 사용자 이메일
+        /// </summary>
         public string UserEmail { get; set; }
 
         /// <summary>
